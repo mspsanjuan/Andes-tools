@@ -1,0 +1,97 @@
+{
+    "_id" : "5c4f06b46e0a5fe66f6b98d8",
+    "conceptosTurneables" : [ 
+        {
+            "nombre" : "niño sano",
+            "conceptId" : "410620009"
+        }, 
+        {
+            "nombre" : "medicina general",
+            "conceptId" : "391000013108"
+        }, 
+        {
+            "nombre" : "pediatría",
+            "conceptId" : "511000013109"
+        }
+    ],
+    "prestacionSnomed" : [ 
+        {
+            "term" : "Recién nacido",
+            "conceptId" : "410621008"
+        }, 
+        {
+            "term" : "consulta de niño sano, a las 2 semanas",
+            "conceptId" : "410623006"
+        }, 
+        {
+            "term" : "consulta de niño sano, al mes",
+            "conceptId" : "2581000013108"
+        }, 
+        {
+            "term" : "consulta de niño sano, a los 2 meses",
+            "conceptId" : "410624000"
+        }, 
+        {
+            "term" : "consulta de niño sano, a los 3 meses",
+            "conceptId" : "2591000013106"
+        }, 
+        {
+            "term" : "consulta de niño sano, a los 4 meses",
+            "conceptId" : "410626003"
+        }, 
+        {
+            "term" : "consulta de niño sano, a los 6 meses ",
+            "conceptId" : "410627007"
+        }
+    ],
+    "recuperoFinanciero" : {
+        "descripcion" : "Consulta médica en Consultorio Externo. Médico Generalista. A.P.S.",
+        "codigo" : "42.01.01",
+        "idServicio" : "148",
+        "idTipoNomenclador" : "9"
+    },
+    "sumar" : {
+        "key_datosreportables" : "niño_sano",
+        "descripcion" : "Examen periódico de salud en niños menores de 1 año",
+        "codigo" : "C001",
+        "idNomenclador" : "2796",
+        "diagnostico" : [ 
+            {
+                "conceptId" : "2271000013107",
+                "diagnostico" : "A97"
+            }
+        ],
+        "datosReportables" : [ 
+            {
+                "idDatosReportables" : "1",
+                "valores" : [ 
+                    {
+                        "conceptId" : "27113001",
+                        "valor" : "peso",
+                        "expresion" : "<<27113001"
+                    }
+                ]
+            }, 
+            {
+                "idDatosReportables" : "2",
+                "valores" : [ 
+                    {
+                        "conceptId" : "276353004",
+                        "valor" : "talla",
+                        "expresion" : "<<50373000 OR 14456009"
+                    }
+                ]
+            }, 
+            {
+                "idDatosReportables" : "4",
+                "valores" : [ 
+                    {
+                        "conceptId" : "363812007",
+                        "valor" : "perímetro cefálico",
+                        "expresion" : "363812007"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "entrada": {
+        "desde": "fecha",
+        "hasta": "fecha",
+        "id_afiliado": "optional"
+    },
+    "salida": {
+        "id_afiliado": "match con el padron de sumar",
+        "fecha_prestacion": "date",
+        "cuie": "codigo centro de salud",
+        "diagnostico_snomed": "concepto snomed",
+        "concepto_turneable": "concepto snomed",
+        "profesional": "datos",
+        "datos_reportables": "peso, talla, etc"
+    }
+}

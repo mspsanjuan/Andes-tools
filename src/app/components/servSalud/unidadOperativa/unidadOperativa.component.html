@@ -1,0 +1,72 @@
+<plex-layout>
+    <plex-layout-main>
+        <header>
+        </header>
+        <div *ngIf="tipoPrestaciones && tipoPrestaciones.length" class="row">
+            <div class="col">
+                <plex-box type="primary">
+                    <table class="table table-striped table-bordered">
+                        <thead style="background-color: darkgray;">
+                            <tr>
+                                <th>ConceptID</th>
+                                <th>Term</th>
+                                <th>Semantic Tag</th>
+                                <th>Código de ServSalud</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of tipoPrestaciones; let i=index" class="hover" [ngStyle]="{'font-weight': bold}">
+                                <th>{{item.conceptId}}</th>
+                                <th>{{item.term}}</th>
+                                <th>{{item.semanticTag}}</th>
+                                <ng-container *ngIf="!isEditTipoPrestaciones[i]; then noEdit; else IsEdit">
+                                </ng-container>
+                                <ng-template #noEdit>
+                                    <th>
+                                        {{item.codigoServSalud ? item.codigoServSalud : "-"}}
+                                    </th>
+                                    <th>
+                                        <plex-button label="Editar" type="warning" icon="pencil" size="sm" (click)="edit(i)"></plex-button>
+                                    </th>
+                                </ng-template>
+                                <ng-template #IsEdit>
+                                    <th>
+                                        <plex-text
+                                            placeholder="Ingrese el código de ServSalud"
+                                            [(ngModel)]="codigos[i]"
+                                            name="{{'codigoServSalud'+i}}"
+                                        >
+                                        </plex-text>
+                                    </th>
+                                    <th>
+                                        <plex-button
+                                            label="Confirmar"
+                                            type="success"
+                                            icon="check"
+                                            size="sm"
+                                            (click)="save(i)"
+                                        >
+                                        </plex-button>
+                                        <plex-button
+                                            label="Descartar"
+                                            type="danger"
+                                            icon="close"
+                                            size="sm"
+                                            (click)="discard(i)"
+                                        >
+                                        </plex-button>
+                                    </th>
+                                </ng-template>
+                            </tr>
+                        </tbody>
+                    </table>
+                </plex-box>
+            </div>
+        </div>
+    </plex-layout-main>
+
+    <plex-layout-footer>
+        <plex-button position="left" type="danger" label="Volver" (click)="back()"></plex-button>
+    </plex-layout-footer>
+</plex-layout>
