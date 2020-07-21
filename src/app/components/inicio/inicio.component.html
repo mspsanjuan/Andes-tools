@@ -1,14 +1,30 @@
-<plex-box>
-    <div class="row text-center">
-        <div class="col-xs-12 col-sm-6 col-md-4">
-            <div class="boton color-salmon" routerLink="/servSalud">
-                <i class="icono mdi mdi-hotel"></i>
-                <div class="titulo">ServSalud</div>
-                <div class="subtitulo">Herramientas</div>
-                <div class="detalle">
-                    <br />para gestionar la exportacion de reportes diarios mensual.
+<plex-layout>
+    <plex-layout-main>
+        <plex-box>
+            <!-- ServSalud -->
+            <div *ngIf="servSalud" class="row text-center">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="boton color-salmon" routerLink="/servSalud">
+                        <i class="icono mdi mdi-hotel"></i>
+                        <div class="titulo">ServSalud</div>
+                        <div class="subtitulo">Herramientas</div>
+                        <div class="detalle">
+                            <br />para gestionar la exportacion de reportes diarios mensual.
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</plex-box>
+            <!-- Carte denegado -->
+            <div *ngIf="denied" class="row">
+                <div class="col">
+                    <div class="boton color-amarillo">
+                        <i class="icono mdi mdi-alert"></i>
+                        <div class="titulo">ATENCIÓN</div>
+                        <div class="subtitulo">PERMISOS DE APLICACIONES</div>
+                        <div class="detalle">Ud. no posee permisos para ninguna herramienta de ANDES</div>
+                    </div>
+                </div>
+            </div>
+        </plex-box>
+    </plex-layout-main>
+</plex-layout>
