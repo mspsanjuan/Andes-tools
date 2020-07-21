@@ -16,29 +16,29 @@ export class AgendaService {
     }
 
     findCandidatas(params: any): Observable<IAgenda[]> {
-        return this.server.get(this.agendaUrl + '/candidatas', { params: params, showError: true });
+        return this.server.get(this.agendaUrl + '/candidatas', { params, showError: true });
     }
 
     findDiagnosticos(params: any): Observable<any> {
-        return this.server.get(this.agendaUrl + '/diagnosticos', { params: params, showError: true });
+        return this.server.get(this.agendaUrl + '/diagnosticos', { params, showError: true });
     }
     findConsultaDiagnosticos(params: any): Observable<any> {
-        return this.server.get(this.agendaUrl + '/consultaDiagnostico', { params: params, showError: true });
+        return this.server.get(this.agendaUrl + '/consultaDiagnostico', { params, showError: true });
     }
     findCantidadConsultaXPrestacion(params: any): Observable<any> {
-        return this.server.get(this.agendaUrl + '/cantidadConsultaXPrestacion', { params: params, showError: true });
+        return this.server.get(this.agendaUrl + '/cantidadConsultaXPrestacion', { params, showError: true });
     }
 
     findResumenDiarioMensual(params: any): Observable<any> {
-        return this.server.get(this.agendaUrl + '/reporteResumenDiarioMensuals', { params: params, showError: true });
+        return this.server.get(this.agendaUrl + '/reporteResumenDiarioMensuals', { params, showError: true });
     }
 
     findPlanillaC1(params: any): Observable<any> {
-        return this.server.get(this.agendaUrl + '/reportePlanillaC1', { params: params, showError: true });
+        return this.server.get(this.agendaUrl + '/reportePlanillaC1', { params, showError: true });
     }
 
     get(params: any): Observable<IAgenda[]> {
-        return this.server.get(this.agendaUrl, { params: params, showError: true });
+        return this.server.get(this.agendaUrl, { params, showError: true });
     }
 
     getById(id: String): Observable<IAgenda> {

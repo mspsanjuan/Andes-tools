@@ -14,44 +14,44 @@ import { IOrganizacion } from 'src/app/interfaces/IOrganizacion';
 // Mapeo para reporte de ServSalud
 const REPORTE_MAP: Array<{keys: Array<string>, rangoEdad: string, numOrden: number}> = [
     {
-        keys: ["30", "0_1"],
-        rangoEdad: "<1",
+        keys: ['30', '0_1'],
+        rangoEdad: '<1',
         numOrden: 1
     },
     {
-        keys: ["1_4"],
-        rangoEdad: "1-4",
+        keys: ['1_4'],
+        rangoEdad: '1-4',
         numOrden: 2
     },
     {
-        keys: ["5_14"],
-        rangoEdad: "5-14",
+        keys: ['5_14'],
+        rangoEdad: '5-14',
         numOrden: 3
     },
     {
-        keys: ["15_19"],
-        rangoEdad: "15-19",
+        keys: ['15_19'],
+        rangoEdad: '15-19',
         numOrden: 4
     },
     {
-        keys: ["20_39"],
-        rangoEdad: "20-39",
+        keys: ['20_39'],
+        rangoEdad: '20-39',
         numOrden: 5
     },
     {
-        keys: ["40_69"],
-        rangoEdad: "40-69",
+        keys: ['40_69'],
+        rangoEdad: '40-69',
         numOrden: 6
     },
     {
-        keys: ["70"],
-        rangoEdad: ">70",
+        keys: ['70'],
+        rangoEdad: '>70',
         numOrden: 7
     },
-]
+];
 
 @Component({
-    selector: 'reporteServSalud',
+    selector: 'app-reporte-serv-salud',
     templateUrl: './reporte.component.html',
     styleUrls: ['./reporte.component.scss']
 })
@@ -62,7 +62,7 @@ export class ReporteServSaludComponent implements OnInit {
     // Variables comunes a varios reportes
     public opcionesOrganizacion: any = [];
     public opcionesPrestacion: Array<ITipoPrestacion> = [];
-    public parametros = {};
+    public parametros: any = {};
     public organizacion: IOrganizacion;
     public tipoReportes;
 
@@ -74,7 +74,7 @@ export class ReporteServSaludComponent implements OnInit {
     public anio;
     public mes;
 
-    constructor (
+    constructor(
         private plex: Plex,
         private router: Router,
         private route: ActivatedRoute,
@@ -107,7 +107,7 @@ export class ReporteServSaludComponent implements OnInit {
     }
 
     getObjAnios() {
-        let anios = [
+        const anios = [
             {
                 id: 1,
                 nombre: moment().subtract(2, 'years').format('YYYY')
@@ -125,7 +125,7 @@ export class ReporteServSaludComponent implements OnInit {
     }
 
     loadOrganizacion() {
-        let query = {
+        const query = {
             activo: 1
         };
 
@@ -145,30 +145,30 @@ export class ReporteServSaludComponent implements OnInit {
     getParams() {
         // organizacion
         if (this.organizacion) {
-            this.parametros['organizacion'] = this.organizacion.id;
-            this.parametros['organizacionNombre'] = this.organizacion.nombre;
+            this.parametros.organizacion = this.organizacion.id;
+            this.parametros.organizacionNombre = this.organizacion.nombre;
         } else {
-            this.parametros['organizacion'] = '';
-            this.parametros['organizacionNombre'] = '';
+            this.parametros.organizacion = '';
+            this.parametros.organizacionNombre = '';
         }
 
         // tipoReportes
-        this.parametros['tipoReportes'] = 'Resumen diario mensual';
+        this.parametros.tipoReportes = 'Resumen diario mensual';
 
         // mes
         if (this.mes) {
-            this.parametros['mes'] = this.mes.id;
-            this.parametros['mesNombre'] = this.mes.nombre;
+            this.parametros.mes = this.mes.id;
+            this.parametros.mesNombre = this.mes.nombre;
         } else {
-            this.parametros['mes'] = '';
-            this.parametros['mesNombre'] = '';
+            this.parametros.mes = '';
+            this.parametros.mesNombre = '';
         }
 
         // anio
         if (this.anio) {
-            this.parametros['anio'] = this.anio.nombre;
+            this.parametros.anio = this.anio.nombre;
         } else {
-            this.parametros['anio'] = '';
+            this.parametros.anio = '';
         }
     }
 
@@ -176,39 +176,40 @@ export class ReporteServSaludComponent implements OnInit {
 
         this.getParams();
 
-        if (this.parametros['organizacion'] && this.parametros['tipoReportes'] && this.parametros['mes'] && this.parametros['anio'] && this.parametros['tipoReportes'] === 'Resumen diario mensual') {
+        if (this.parametros.organizacion && this.parametros.tipoReportes && this.parametros.mes
+            && this.parametros.anio && this.parametros.tipoReportes === 'Resumen diario mensual') {
             this.reporte = [];
 
-            for (let prestacion of this.opcionesPrestacion) {
-                this.parametros['prestacion'] = prestacion.id;
-                this.parametros['prestacionNombre'] = prestacion.term;
+            for (const prestacion of this.opcionesPrestacion) {
+                this.parametros.prestacion = prestacion.id;
+                this.parametros.prestacionNombre = prestacion.term;
 
                 this.agendaService.findResumenDiarioMensual(this.parametros).subscribe((reporte: any) => {
-                    
-                    for (let i in REPORTE_MAP) {
-                        const totales = REPORTE_MAP[i].keys
-                            .map(k => reporte.totalMes[k])
-                            .reduce((prev, current) => {
-                                return {
-                                    m: prev.m + current.m,
-                                    f: prev.f + current.f,
-                                }
-                            }, { m: 0, f: 0});
+                    for (const i in REPORTE_MAP) {
+                        if (Object.prototype.hasOwnProperty.call(REPORTE_MAP, i)) {
+                            const totales = REPORTE_MAP[i].keys
+                                .map(k => reporte[0].data.totalMes[k])
+                                .reduce((prev, current) => {
+                                    return {
+                                        m: prev.m + current.m,
+                                        f: prev.f + current.f,
+                                    };
+                                }, { m: 0, f: 0});
 
+                            const item: IReporteServSalud = {
+                                CodProv: 70,
+                                CodEst: this.organizacion.codigo.servSalud ? this.organizacion.codigo.servSalud  : '-',
+                                AnioConsul: this.anio.nombre,
+                                MesConsul: this.mes.id,
+                                CodUOperat: prestacion.codigoServSalud ? prestacion.codigoServSalud : '-',
+                                NumOrden: REPORTE_MAP[i].numOrden,
+                                RangoEdad: REPORTE_MAP[i].rangoEdad,
+                                Varones: totales.m,
+                                Mujeres: totales.f,
+                            };
 
-                        let item: IReporteServSalud = {
-                            CodProv: 70,
-                            CodEst: this.organizacion.codigo.servSalud ? this.organizacion.codigo.servSalud  : "-",
-                            AnioConsul: this.anio.nombre,
-                            MesConsul: this.mes.id,
-                            CodUOperat: prestacion.codigoServSalud ? prestacion.codigoServSalud : "-",
-                            NumOrden: REPORTE_MAP[i].numOrden,
-                            RangoEdad: REPORTE_MAP[i].rangoEdad,
-                            Varones: totales.m,
-                            Mujeres: totales.f,
-                        };
-    
-                        this.reporte.push(item);
+                            this.reporte.push(item);
+                        }
                     }
                 });
             }

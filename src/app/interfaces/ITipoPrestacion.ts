@@ -1,9 +1,9 @@
 export interface ITipoPrestacion {
-    id: String;
-    conceptId: String;
-    term: String;
-    fsn: String;
-    semanticTag: String;
-    noNominalizada?: Boolean;
-    codigoServSalud?: String;
+    id: string;
+    conceptId: string;
+    term: string;
+    fsn: string;
+    semanticTag: string;
+    noNominalizada?: boolean;
+    codigoServSalud?: string;
 }

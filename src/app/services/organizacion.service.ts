@@ -10,31 +10,30 @@ export class OrganizacionService {
 
     /**
      * Metodo get. Trae el objeto organizacion.
-     * @param {any} params Opciones de busqueda
+     * @param params Opciones de busqueda
      */
     get(params: any): Observable<IOrganizacion[]> {
-        return this.server.get(this.organizacionUrl, { params: params, showError: true });
+        return this.server.get(this.organizacionUrl, { params, showError: true });
     }
 
     /**
      * Metodo getById. Trae el objeto organizacion por su Id.
-     * @param {String} id Busca por Id
+     * @param id Busca por Id
      */
-    getById(id: String): Observable<IOrganizacion> {
+    getById(id: string): Observable<IOrganizacion> {
         return this.server.get(this.organizacionUrl + '/' + id, null);
     }
 
-    getGeoreferencia(id: String): Observable<any> {
+    getGeoreferencia(id: string): Observable<any> {
         return this.server.get(this.organizacionUrl + '/georef/' + id, null);
     }
 
     /**
      * Save. Si le organizacion por parametro tiene id hace put y sino hace post
      *
-     * @param {IOrganizacion} organizacion guarda una organizacion
-     * @returns {Observable<IOrganizacion>} retorna un observable
+     * @param organizacion guarda una organizacion
+     * @returns retorna un observable
      *
-     * @memberof OrganizacionService
      */
     save(organizacion: IOrganizacion): Observable<IOrganizacion> {
         if (organizacion.id) {
@@ -46,7 +45,7 @@ export class OrganizacionService {
 
     /**
      * Metodo disable. deshabilita organizacion.
-     * @param {IEspecialidad} especialidad Recibe IEspecialidad
+     * @param especialidad Recibe IEspecialidad
      */
     disable(organizacion: IOrganizacion): Observable<IOrganizacion> {
         organizacion.activo = false;
@@ -55,16 +54,16 @@ export class OrganizacionService {
     }
 
     /**
-    * Metodo enable. habilita establecimiento.
-    * @param {IOrganizacion} establecimiento Recibe IOrganizacion
-    */
+     * Metodo enable. habilita establecimiento.
+     * @param establecimiento Recibe IOrganizacion
+     */
     enable(establecimiento: IOrganizacion): Observable<IOrganizacion> {
         establecimiento.activo = true;
         return this.save(establecimiento);
     }
 
     @Cache({ key: true })
-    configuracion(id: String) {
+    configuracion(id: string) {
         return this.server.get(`${this.organizacionUrl}/${id}/configuracion`);
     }
 
@@ -73,15 +72,15 @@ export class OrganizacionService {
      */
 
     clone(item) {
-        let r = Object.assign({}, item);
-        delete r['hijos'];
+        const r = Object.assign({}, item);
+        delete r.hijos;
         return r;
     }
 
     traverseTree(sector, onlyLeaft) {
         if (sector.hijos && sector.hijos.length > 0) {
             let res = onlyLeaft ? [] : [this.clone(sector)];
-            for (let sec of sector.hijos) {
+            for (const sec of sector.hijos) {
                 res = [...res, ...this.traverseTree(sec, onlyLeaft)];
             }
             return res;
@@ -91,15 +90,15 @@ export class OrganizacionService {
     }
 
     getFlatTree(organizacion, onlyLeaft = true) {
-        let items = organizacion.mapaSectores.reduce((_items, actual) => {
-            return [..._items, ...this.traverseTree(actual, onlyLeaft)];
+        const arr = organizacion.mapaSectores.reduce((items, actual) => {
+            return [...items, ...this.traverseTree(actual, onlyLeaft)];
         }, []);
-        return items;
+        return arr;
     }
 
     getRuta(organizacion, item) {
-        for (let sector of organizacion.mapaSectores) {
-            let res = this.makeTree(sector, item);
+        for (const sector of organizacion.mapaSectores) {
+            const res = this.makeTree(sector, item);
             if (res) {
                 return res;
             }
@@ -110,17 +109,17 @@ export class OrganizacionService {
 
     makeTree(sector, item) {
         if (sector.hijos && sector.hijos.length > 0) {
-            for (let sec of sector.hijos) {
-                let res = this.makeTree(sec, item);
+            for (const sec of sector.hijos) {
+                const res = this.makeTree(sec, item);
                 if (res) {
-                    let r = this.clone(sector);
+                    const r = this.clone(sector);
                     return [r, ...res];
                 }
             }
             return null;
         } else {
             if (item.id === sector.id) {
-                let r = this.clone(sector);
+                const r = this.clone(sector);
                 return [r];
             } else {
                 return null;
@@ -129,9 +128,6 @@ export class OrganizacionService {
     }
     /**
      * Devuelve el nombre del estado de la organizacion pasada por parámetro
-     * @param {(boolean | IOrganizacion)} organizacion
-     * @returns {string}
-     * @memberof OrganizacionService
      */
     getEstado(organizacion: boolean | IOrganizacion): string {
         const estado = (typeof organizacion === 'boolean') ? organizacion : organizacion.activo;
@@ -140,19 +136,9 @@ export class OrganizacionService {
 
     /**
      * Consulta en SISA los datos de la organización con código SISA igual al pasado por parámetro
-     * @param {string} cod es el código SISA
-     * @returns {Observable<any>}
-     * @memberof OrganizacionService
+     * @param cod es el código SISA
      */
     getOrgSisa(cod: string): Observable<any> {
         return this.server.get(this.organizacionUrl + '/sisa/' + cod);
-    }
-
-    /**
-     * Metodo patch. Actualiza una propiedad del objeto organizacion.
-     * @param {IOrganizacion} organizacion Organizacion que se va a modificar
-     */
-    patch(organizacion: IOrganizacion, options: {op: String, data: any}): Observable<IOrganizacion> {
-        return this.server.patch(this.organizacionUrl + '/' + organizacion.id, options);
     }
 }

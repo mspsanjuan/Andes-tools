@@ -11,19 +11,19 @@ import { ITipoPrestacion } from './ITipoPrestacion';
 export interface ISectores {
     tipoSector: ISnomedConcept;
     unidadConcept?: ISnomedConcept;
-    nombre: String;
+    nombre: string;
     hijos?: ISectores[];
 }
 
 export interface IOrganizacion {
     id: string;
     codigo: {
-        sisa: String,
-        cuie: String,
-        remediar: String,
-        servSalud: String,
+        sisa: string,
+        cuie: string,
+        remediar: string,
+        servSalud: string,
     };
-    nombre: String;
+    nombre: string;
     tipoEstablecimiento: ITipoEstablecimiento;
     // direccion
     direccion: IDireccion;
@@ -31,13 +31,13 @@ export interface IOrganizacion {
     contacto: [IContacto];
 
     edificio: [{
-        id: String,
-        descripcion: String,
+        id: string,
+        descripcion: string,
         contacto: IContacto,
         direccion: IDireccion,
     }];
-    nivelComplejidad: Number;
-    activo: Boolean;
+    nivelComplejidad: number;
+    activo: boolean;
     fechaAlta: Date;
     fechaBaja: Date;
     servicios: [ISnomedConcept];
@@ -45,14 +45,10 @@ export interface IOrganizacion {
     unidadesOrganizativas: [ISnomedConcept];
     /**
      * "prestaciones" traidas de sisa. Se muestran en la app mobile
-     * @type {[{ idSisa: number, nombre: string }]}
-     * @memberof IOrganizacion
      */
     ofertaPrestacional?: [{ _id: string, prestacion: ITipoPrestacion, detalle: string }];
     /**
      * Indica si debe mostrarse en los mapas. Por defecto se muestra en los hospitales, centro de salud, punto sanitario
-     * @type {boolean}
-     * @memberof IOrganizacion
      */
     showMapa?: boolean;
 }

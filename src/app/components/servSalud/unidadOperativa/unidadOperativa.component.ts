@@ -10,7 +10,7 @@ import { ITipoPrestacion } from 'src/app/interfaces/ITipoPrestacion';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'unidadOperativa',
+    selector: 'app-unidad-operativa',
     templateUrl: './unidadOperativa.component.html',
     styleUrls: ['./unidadOperativa.component.scss']
 })
@@ -23,9 +23,9 @@ export class UnidadOperativaComponent implements OnInit {
     /**
      * Se almacena los codigos de ServSalud que son editados
      */
-    codigos: Array<String> = [];
+    codigos: Array<string> = [];
     /**
-     * Contiene los estados de "editando" de los codigos de ServSalud 
+     * Contiene los estados de "editando" de los codigos de ServSalud
      */
     isEditTipoPrestaciones: Array<boolean> = [];
 
@@ -47,7 +47,7 @@ export class UnidadOperativaComponent implements OnInit {
         {
             name: 'Unidad Operativa'
         }]);
-        
+
         this.loadPrestaciones();
     }
 
@@ -58,7 +58,7 @@ export class UnidadOperativaComponent implements OnInit {
         .subscribe((data: Array<ITipoPrestacion>) => {
             this.tipoPrestaciones = data;
             this.isEditTipoPrestaciones = new Array<boolean>(data.length);
-            this.codigos = new Array<String>(data.length);
+            this.codigos = new Array<string>(data.length);
         });
     }
 
@@ -73,15 +73,8 @@ export class UnidadOperativaComponent implements OnInit {
 
     save(index: number) {
         this.isEditTipoPrestaciones[index] = false;
-        this.tipoPrestacionService.patch(
-            this.tipoPrestaciones[index],
-            {
-                op: "updateCodigoServSalud",
-                data: this.codigos[index]
-            }
-        ).subscribe((data: ITipoPrestacion) => {
-            this.tipoPrestaciones[index] = data;
-        });
+        this.tipoPrestaciones[index].codigoServSalud = this.codigos[index];
+        this.tipoPrestacionService.put(this.tipoPrestaciones[index]).subscribe();
     }
 
     back() {

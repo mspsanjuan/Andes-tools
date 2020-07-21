@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IOrganizacion } from 'src/app/interfaces/IOrganizacion';
 
 @Component({
-    selector: 'codigoEstablecimiento',
+    selector: 'app-codigo-establecimiento',
     templateUrl: './codigoEstablecimiento.component.html',
     styleUrls: ['./codigoEstablecimiento.component.scss']
 })
@@ -20,9 +20,9 @@ export class CodigoEstablecimientoComponent implements OnInit {
     /**
      * Se almacena los codigos de ServSalud que son editados
      */
-    codigos: Array<String> = [];
+    codigos: Array<string> = [];
     /**
-     * Contiene los estados de "editando" de los codigos de Establecimiento 
+     * Contiene los estados de "editando" de los codigos de Establecimiento
      */
     isEditOrganizaciones: Array<boolean> = [];
 
@@ -44,7 +44,7 @@ export class CodigoEstablecimientoComponent implements OnInit {
         {
             name: 'Código de establecimiento'
         }]);
-        
+
         this.loadOrganizaciones();
     }
 
@@ -55,7 +55,7 @@ export class CodigoEstablecimientoComponent implements OnInit {
         .subscribe((data: Array<IOrganizacion>) => {
             this.organizaciones = data;
             this.isEditOrganizaciones = new Array<boolean>(data.length);
-            this.codigos = new Array<String>(data.length);
+            this.codigos = new Array<string>(data.length);
         });
     }
 
@@ -70,15 +70,8 @@ export class CodigoEstablecimientoComponent implements OnInit {
 
     save(index: number) {
         this.isEditOrganizaciones[index] = false;
-        this.organizacionService.patch(
-            this.organizaciones[index],
-            {
-                op: "updateCodigoServSalud",
-                data: this.codigos[index]
-            }
-        ).subscribe((data: IOrganizacion) => {
-            this.organizaciones[index] = data;
-        });
+        this.organizaciones[index].codigo.servSalud = this.codigos[index];
+        this.organizacionService.save(this.organizaciones[index]).subscribe();
     }
 
     back() {
